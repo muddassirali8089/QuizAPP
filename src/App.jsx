@@ -4,8 +4,10 @@ import Main from "./Components/Main";
 import Loader from "./Components/Loader";
 import Error from "./Components/Error.jsx"
 import StartScreen from "./Components/StartScreen.jsx";
+import Question from "./Components/Question.jsx";
 
 function reducer(state, action) {
+  //action is a function that is comming from the dispatch.
   switch (action.type) {
     case "dataRecived":
       return { ...state, questions: action.data, status: "ready" };
@@ -14,6 +16,11 @@ function reducer(state, action) {
         ...state,
         status: "error",
       };
+    case "start":
+      return{
+        ...state,
+        status:"active"
+      }
 
     default:
       throw new Error("invalid action..");
@@ -42,7 +49,8 @@ function App() {
       <Main>
       {status === "loading" && <Loader />}
       {status === "error" && <Error />}
-      {status === "ready" && <StartScreen numQuestion = {numQuestion} />}
+      {status === "ready" && <StartScreen numQuestion = {numQuestion} dispatch = {dispatch} />}
+      {status === "active" && <Question />}
       </Main>
     </div>
   );
