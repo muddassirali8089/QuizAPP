@@ -1,14 +1,19 @@
 
-import DateCounter from "./Components/DateCounter";
-import UseReducerHook from "./Components/useReducer";
-import "./index.css"
+
+
+import Header from "./Components/Header";
+import Main from "./Components/Main";
+
 function App(){
 
   return(
-    <div>
- <DateCounter/> 
-
-    </div>
+   <div className="app">
+   <Header/>
+   <Main>
+    <p>1/15</p>
+    <p>Question?</p>
+   </Main>
+   </div>
   )
 }
 export default App;
