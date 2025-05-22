@@ -6,6 +6,7 @@ import Error from "./Components/Error.jsx";
 import StartScreen from "./Components/StartScreen.jsx";
 import Question from "./Components/Question.jsx";
 import NextQuestion from "./Components/NextQuestion.jsx";
+import Progress from "./Components/Progress.jsx";
 
 const initialState = {
   questions: [],
@@ -42,7 +43,7 @@ function reducer(state, action) {
       };
 
     case "nextQuestion":
-      return { ...state  , index : state.index + 1 , answer: null};
+      return { ...state, index: state.index + 1, answer: null };
 
     default:
       throw new Error("invalid action..");
@@ -55,6 +56,7 @@ function App() {
     initialState
   );
   const numQuestion = questions.length;
+  const maxPossiblePoints = questions.reduce((pre, cur) => pre + cur.points, 0);
   useEffect(function () {
     fetch("http://localhost:5000/questions")
       .then((res) => res.json())
@@ -73,18 +75,21 @@ function App() {
         )}
         {status === "active" && (
           <>
-    
-          <Question
-            question={questions[index]}
-            dispatch={dispatch}
-            answer={answer}
-          />
-          <NextQuestion dispatch ={dispatch} answer ={answer}/>
+            <Progress
+              index={index}
+              numQuestions={numQuestion}
+              points={points}
+              maxPossiblePoints={maxPossiblePoints}
+              answer={answer}
+            />
+            <Question
+              question={questions[index]}
+              dispatch={dispatch}
+              answer={answer}
+            />
+            <NextQuestion dispatch={dispatch} answer={answer} />
           </>
-        )
-        
-        }
-
+        )}
       </Main>
     </div>
   );
