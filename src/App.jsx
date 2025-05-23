@@ -10,7 +10,7 @@ import Progress from "./Components/Progress.jsx";
 import FinishScreen from "./Components/FinishScreen.jsx";
 import Footer from "./Components/Footer.jsx";
 import Timer from "./Components/Timer.jsx";
-
+const SECS_PER_QUESTION = 30;
 const initialState = {
   questions: [],
   status: "loading",
@@ -18,7 +18,7 @@ const initialState = {
   answer: null,
   points: 0,
   highScore: 0,
-  remaningSecond : 10
+  remaningSecond : null
   // "loading" , "error" , "ready" , "active" , "finished"
 };
 function reducer(state, action) {
@@ -34,6 +34,7 @@ function reducer(state, action) {
     case "start":
       return {
         ...state,
+        remaningSecond : state.questions.length * SECS_PER_QUESTION,
         status: "active",
       };
     case "newAnswer":
@@ -114,7 +115,11 @@ function App() {
               answer={answer}
             />
             <Footer>
-          <Timer dispatch={dispatch} remaningSecond ={remaningSecond}/>
+          {/* <Timer dispatch={dispatch} remaningSecond ={questions.length * SECS_PER_QUESTION}/> */}
+
+          <Timer dispatch={dispatch} totalSeconds={questions.length * SECS_PER_QUESTION} />
+
+
         
             <NextQuestion
               dispatch={dispatch}
