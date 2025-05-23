@@ -48,6 +48,8 @@ function reducer(state, action) {
       return { ...state, index: state.index + 1, answer: null };
       case "finish":
         return{ ...state , status : "finish" , highScore: state.points>state.highScore ? state.points:state.highScore  }
+      case "Restart":
+        return{...initialState , questions:state.questions , status:"ready"}
     default:
       throw new Error("invalid action..");
   }
