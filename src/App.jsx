@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-case-declarations */
 import { useEffect, useReducer } from "react";
 import Header from "./Components/Header";
 import Main from "./Components/Main";
@@ -10,6 +12,7 @@ import Progress from "./Components/Progress.jsx";
 import FinishScreen from "./Components/FinishScreen.jsx";
 import Footer from "./Components/Footer.jsx";
 import Timer from "./Components/Timer.jsx";
+import { ToastContainer } from "react-toastify";
 const SECS_PER_QUESTION = 30;
 const initialState = {
   questions: [],
@@ -18,7 +21,7 @@ const initialState = {
   answer: null,
   points: 0,
   highScore: 0,
-  remaningSecond : null
+  remaningSecond: null,
   // "loading" , "error" , "ready" , "active" , "finished"
 };
 function reducer(state, action) {
@@ -34,7 +37,7 @@ function reducer(state, action) {
     case "start":
       return {
         ...state,
-        remaningSecond : state.questions.length * SECS_PER_QUESTION,
+        remaningSecond: state.questions.length * SECS_PER_QUESTION,
         status: "active",
       };
     case "newAnswer":
@@ -66,22 +69,24 @@ function reducer(state, action) {
       };
 
     case "tiktok":
-      return{
+      return {
         ...state,
-        remaningSecond : state.remaningSecond-1,
-        status: state.remaningSecond === 0 ? "finish" : state.status
+        remaningSecond: state.remaningSecond - 1,
+        status: state.remaningSecond === 0 ? "finish" : state.status,
         // status: "finish",
         // highScore:
         //   state.points > state.highScore ? state.points : state.highScore,
-      }
+      };
     default:
       throw new Error("invalid action..");
   }
 }
 
 function App() {
-  const [{ questions, status, index, answer, points, highScore , remaningSecond }, dispatch] =
-    useReducer(reducer, initialState);
+  const [
+    { questions, status, index, answer, points, highScore, remaningSecond },
+    dispatch,
+  ] = useReducer(reducer, initialState);
   const numQuestion = questions.length;
   const maxPossiblePoints = questions.reduce((pre, cur) => pre + cur.points, 0);
   useEffect(function () {
@@ -115,19 +120,19 @@ function App() {
               answer={answer}
             />
             <Footer>
-          {/* <Timer dispatch={dispatch} remaningSecond ={questions.length * SECS_PER_QUESTION}/> */}
+              {/* <Timer dispatch={dispatch} remaningSecond ={questions.length * SECS_PER_QUESTION}/> */}
 
-          <Timer dispatch={dispatch} totalSeconds={questions.length * SECS_PER_QUESTION} />
+              <Timer
+                dispatch={dispatch}
+                totalSeconds={questions.length * SECS_PER_QUESTION}
+              />
 
-
-        
-            <NextQuestion
-              dispatch={dispatch}
-              answer={answer}
-              numQuestion={numQuestion}
-              index={index}
-            />
-
+              <NextQuestion
+                dispatch={dispatch}
+                answer={answer}
+                numQuestion={numQuestion}
+                index={index}
+              />
             </Footer>
           </>
         )}
@@ -140,6 +145,7 @@ function App() {
           />
         )}
       </Main>
+         <ToastContainer />
     </div>
   );
 }
